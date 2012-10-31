@@ -56,7 +56,7 @@ def mpi_master():
     images = open('iphas-images.csv', 'r')
     rows = images.readlines()
     # Ignore the first line of the CSV table (=header)
-    for i, row in enumerate(rows[1:]):
+    for i, row in enumerate(rows[1:20]):
         cols = row.strip().split(',')
         if cols[1] == "":
             continue
