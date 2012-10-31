@@ -8,13 +8,23 @@ import logging
 import pyfits
 import numpy as np
 
+def is_local():
+    """Are we running locally or on the cluster?"""
+    if os.uname()[1] == 'uhppc11.herts.ac.uk':
+        return True
+    return False
+
+
 """CONFIGURATION"""
 
 # Initialize logging
 logging.basicConfig( level=logging.WARNING )
 
 # Where are the images?
-datadir = "/media/0133d764-0bfe-4007-a9cc-a7b1f61c4d1d/iphas/"
+if is_local():
+    datadir = '/media/0133d764-0bfe-4007-a9cc-a7b1f61c4d1d/iphas/'
+else:
+    datadir = '/car-data/gb/iphas/'
 
 # Initialize output table
 out = open('iphas-images.csv', 'w')
