@@ -8,16 +8,29 @@ import subprocess
 import shlex
 import os
 
+def is_local():
+    """Are we running locally or on the cluster?"""
+    if os.uname()[1] == 'uhppc11.herts.ac.uk':
+        return True
+    return False
+
+
 # Setup MPI and logging
 comm = MPI.COMM_WORLD
 logging.basicConfig(level=logging.DEBUG, 
-    format="%(asctime)s/W"+str(comm.rank)+"/%(levelname)s: %(message)s", 
+    format="%(asctime)s/W"+str(comm.rank)+"/"+MPI.Get_processor_name()+"/%(levelname)s: %(message)s", 
     datefmt="%Y-%m-%d %H:%M:%S" )
 
 # Where are the input images?
-in_dir = '/media/0133d764-0bfe-4007-a9cc-a7b1f61c4d1d/iphas'
+if is_local():
+    in_dir = '/media/0133d764-0bfe-4007-a9cc-a7b1f61c4d1d/iphas'
+else:
+    in_dir = '/car-data/gb/iphas'
 # Where to write the output?
-out_dir = '/tmp/iphas-mosaic'
+if is_local():
+    out_dir = '/tmp/iphas-mosaic'
+else:
+    out_dir = '/car-data/gb/iphas-mosaic'
 # Mosaicking command
 mosaic_cmd = '/home/gb/bin/casutools/bin/mosaic'
 # fpack command (-D deletes original file, -Y suppresses warning)

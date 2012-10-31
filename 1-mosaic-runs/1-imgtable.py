@@ -1,6 +1,6 @@
 """
-Walk through the IPHAS raw data directory 
-and produce a CSV file with the location of all images and confidence maps
+Walk through the IPHAS raw data directory and create a CSV table which links
+the images, confidence maps and field numbers
 """
 import os
 import re
