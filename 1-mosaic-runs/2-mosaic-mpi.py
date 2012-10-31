@@ -56,8 +56,9 @@ def mpi_master():
     images = open('iphas-images.csv', 'r')
     rows = images.readlines()
     # Ignore the first line of the CSV table (=header)
-    for i, row in enumerate(rows[1:20]):
+    for i, row in enumerate(rows[1:]):
         cols = row.strip().split(',')
+        # Ignore calibration and non-iphas fields
         if cols[1] == "":
             continue
 
@@ -84,9 +85,10 @@ def cmd_exec(cmd):
     stdout = p.stdout.read().strip()
     stderr = p.stderr.read().strip()
     if stderr:
-        logging.error("Error output detected! STDERR={%S} STDOUT={%s} CMD={%s}" % (stderr, stdout, cmd))
-        raise Exception('Command failed: %s' % cmd)
+        logging.error("STDERR={%s} STDOUT={%s} CMD={%s}" % (stderr, stdout, cmd))
+        return False
     logging.debug( stdout )
+    return True
 
 
 def mpi_worker():
@@ -118,11 +120,10 @@ def mpi_worker():
             commands.append( "%s %s" % (fpack_cmd, filename) )
 
         # Execute!
-        try:
-            for cmd in commands:
-                cmd_exec(cmd)
-        except:
-            logging.error( "Aborted %s_%s" % (msg['field'], msg['filter']) )
+        for cmd in commands:
+            success = cmd_exec(cmd)
+            if not success:
+                break
 
 
 """ MAIN """
