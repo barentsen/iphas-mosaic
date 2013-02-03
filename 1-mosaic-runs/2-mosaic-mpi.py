@@ -111,7 +111,7 @@ def mpi_worker():
 
         commands = []
         # Casutools/mosaic command
-        commands.append( "%s %s %s %s %s --skyflag=0 --verbose" \
+        commands.append( "%s %s %s %s %s --skyflag=0 --conflim=70  --verbose" \
                 % (mosaic_cmd, in_img, in_conf, out_img, out_conf) )
         # Compression using fpack
         for filename in [out_img, out_conf]:
@@ -121,9 +121,7 @@ def mpi_worker():
 
         # Execute!
         for cmd in commands:
-            success = cmd_exec(cmd)
-            if not success:
-                break
+            cmd_exec(cmd)
 
 
 """ MAIN """

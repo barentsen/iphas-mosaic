@@ -27,6 +27,5 @@ export PATH=/home/gb/bin/epd-7.3-1-rh5-x86_64/bin
 export LD_LIBRARY_PATH=/home/gb/bin/wcslib-4.15/lib:$LD_LIBRARY_PATH
 cd /home/gb/dev/iphas-mosaic/1-mosaic-runs
 /usr/local/bin/mpiexec python $PBS_O_WORKDIR/2-mosaic-mpi.py
-#/soft/mpich2/bin/mpiexec -launcher fork -rmk pbs
 echo ------------------------------------------------------
 echo Job ends
