@@ -1,12 +1,11 @@
 import mosaic
 import logging
 import os
+import sys
 
-
-logging.basicConfig(level=logging.DEBUG, 
-    format="%(asctime)s/%(levelname)s: %(message)s", 
+logging.basicConfig(level=logging.DEBUG,
+    format="%(asctime)s/%(levelname)s: %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S" )
-
 
 
 """ CONFIGURATION """
@@ -19,6 +18,9 @@ if hostname == 'uhppc11.herts.ac.uk':
 elif hostname == 'stri-cluster.herts.ac.uk':
     SCRATCHDIR = '/tmp/scratch'
     IMAGEDIR = '/media/0133d764-0bfe-4007-a9cc-a7b1f61c4d1d/iphas'
+elif len(sys.argv)==3:
+    SCRATCHDIR = sys.argv[2]
+    IMAGEDIR = sys.argv[1]
 else:
     raise Exception('Script not configured for this machine.')
 
@@ -41,10 +43,10 @@ TILES_OVERLAP = 0.05 # Fraction
 def create_mosaic(tile, band):
     # Mosaic name
     name = "tile%03d-%s-normal" % (tile, band)
-   
+
     # Create the header
     hdr_filename = '/tmp/%s.hdr' % name
-    hdr = mosaic.FitsHeader(GLON1, GLON2, 
+    hdr = mosaic.FitsHeader(GLON1, GLON2,
                             GLAT1, GLAT2,
                             RESOLUTION,
                             TILES_X, TILES_Y, TILES_OVERLAP)
